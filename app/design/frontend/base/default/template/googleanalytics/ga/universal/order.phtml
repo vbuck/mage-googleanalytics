@@ -1,0 +1,53 @@
+<?php
+
+/**
+ * Google Analytics order details template for Universal Analytics.
+ * 
+ * PHP Version 5
+ * 
+ * @category  Template
+ * @package   Vbuck_GoogleAnalytics
+ * @author    Rick Buczynski <me@rickbuczynski.com>
+ * @copyright 2015 Rick Buczynski. All Rights Reserved.
+ */
+
+?>
+<?php /* @var $this Sayers_GoogleAnalytics_Block_Ga */ ?>
+<?php $_orders = $this->getOrders(); ?>
+<?php if (sizeof($_orders) > 0) : ?>
+<script type="text/javascript">
+    ga('require', 'ecommerce');
+
+    <?php foreach ($_orders as $_order) : ?>
+    ga(
+        'ecommerce:addTransaction',
+        {
+            'id'            : '<?php echo $_order->getIncrementId(); ?>',
+            'affiliation'   : '<?php echo $_order->getAffiliation(); ?>',
+            'revenue'       : '<?php echo $_order->getBaseGrandTotal(); ?>',
+            'tax'           : '<?php echo $_order->getBaseTaxAmount(); ?>',
+            'shipping'      : '<?php echo $_order->getBaseShippingAmount(); ?>'
+        }
+    );
+
+    <?php foreach ($_order->getAllVisibleItems() as $_item) : ?>
+    <?php if ($_item->getParentId()) : ?>
+    <?php continue; ?>
+    <?php endif; ?>
+    ga(
+        'ecommerce:addItem',
+        {
+            'id'        : '<?php echo $_order->getIncrementId(); ?>',
+            'name'      : '<?php echo $this->jsQuoteEscape($_item->getName(), "'"); ?>',
+            'sku'       : '<?php echo $this->jsQuoteEscape($_item->getSku(), "'"); ?>',
+            'category'  : '<?php echo $_item->getCategory(); ?>',
+            'price'     : '<?php echo $_item->getBasePrice(); ?>',
+            'quantity'  : '<?php echo $_item->getQtyOrdered(); ?>'
+        }
+    );
+    <?php endforeach; ?>
+    <?php endforeach; ?>
+
+    ga('ecommerce:send');
+</script>
+<?php endif; ?>

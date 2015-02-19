@@ -1,0 +1,49 @@
+<?php
+
+/**
+ * Google Analytics order details template for Classical Analytics.
+ * 
+ * PHP Version 5
+ * 
+ * @category  Template
+ * @package   Vbuck_GoogleAnalytics
+ * @author    Rick Buczynski <me@rickbuczynski.com>
+ * @copyright 2015 Rick Buczynski. All Rights Reserved.
+ */
+
+?>
+<?php /* @var $this Sayers_GoogleAnalytics_Block_Ga */ ?>
+<?php $_orders = $this->getOrders(); ?>
+<?php if (sizeof($_orders) > 0) : ?>
+<script type="text/javascript">
+    <?php foreach ($_orders as $_order) : ?>
+    <?php $_address = $_order->getIsVirtual() ? $_order->getBillingAddress() : $_order->getShippingAddress(); ?>
+    _gaq.push([
+        '_addTrans',
+        '<?php echo $_order->getIncrementId(); ?>',
+        '<?php echo $_order->getAffiliation(); ?>',
+        '<?php echo $_order->getBaseGrandTotal(); ?>',
+        '<?php echo $_order->getBaseTaxAmount(); ?>',
+        '<?php echo $_order->getBaseShippingAmount(); ?>',
+        '<?php echo $this->jsQuoteEscape($_address->getCity(), "'"); ?>',<?php /* Adding a quote here to fix syntax highlighting for some IDEs " */ ?>
+        '<?php echo $this->jsQuoteEscape($_address->getRegion(), "'"); ?>',
+        '<?php echo $this->jsQuoteEscape($_address->getCountry(), "'"); ?>'
+    ]);
+
+    <?php foreach ($_order->getAllVisibleItems() as $_item) : ?>
+    <?php if ($_item->getParentId()) : ?>
+    <?php continue; ?>
+    <?php endif; ?>
+    _gaq.push([
+        '_addTrans',
+        '<?php echo $_order->getIncrementId(); ?>',
+        '<?php echo $this->jsQuoteEscape($_item->getSku(), "'"); ?>',
+        '<?php echo $this->jsQuoteEscape($_address->getName(), "'"); ?>',
+        '<?php echo $_item->getCategory(); ?>',
+        '<?php echo $_item->getBasePrice(); ?>',
+        '<?php echo $_item->getQtyOrdered(); ?>'
+    ]);
+    <?php endforeach; ?>
+    <?php endforeach; ?>
+</script>
+<?php endif; ?>

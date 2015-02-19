@@ -1,0 +1,58 @@
+<?php
+
+/**
+ * Google Analytics template for Classical Analytics.
+ * 
+ * PHP Version 5
+ * 
+ * @category  Template
+ * @package   Vbuck_GoogleAnalytics
+ * @author    Rick Buczynski <me@rickbuczynski.com>
+ * @copyright 2015 Rick Buczynski. All Rights Reserved.
+ */
+
+?>
+<?php /* @var $this Sayers_GoogleAnalytics_Block_Ga */ ?>
+<!-- BEGIN GOOGLE ANALYTICS CODE -->
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+
+    _gaq.push(['_setAccount', '<?php echo $this->getAccount(); ?>']);
+
+    <?php if ($this->isAnonymizedIp()) : ?>
+    _gaq.push(['_gat._anonymizeIp']);
+    <?php endif; ?>
+
+    <?php if ($this->getCookieDomain()) : ?>
+    _gaq.push(['_setDomainName', '<?php echo $this->getCookieDomain(); ?>']);
+    <?php endif; ?>
+</script>
+<?php echo $this->getChildHtml('order_tracking'); ?>
+<?php echo $this->getChildHtml('custom_tracking'); ?>
+<script type="text/javascript">
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+    // Some fallback if needed
+    window.onload = function() {
+        if(_gaq.I==undefined){
+            _gaq.push(['_trackEvent', 'tracking_script', 'loaded', 'ga.js', ,true]);
+            ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            s = document.getElementsByTagName('script')[0];
+            gaScript = s.parentNode.insertBefore(ga, s);
+        } else {
+            _gaq.push(['_trackEvent', 'tracking_script', 'loaded', 'dc.js', ,true]);
+        }
+    };
+</script>
+<!-- END GOOGLE ANALYTICS CODE -->
+<?php // Below does not appear to be used in CE 1.9 ?>
+<?php if ($this->getGoogleCheckout()) : ?>
+<script src="<?php echo $this->getGoogleCheckoutCodeUrl(); ?>" type="text/javascript"></script>
+<?php endif; ?>

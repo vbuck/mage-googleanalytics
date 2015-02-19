@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!--
+    
+/**
+ * Google Analytics extensions module configuration.
+ * 
+ * PHP Version 5
+ * 
+ * @category  Configuration
+ * @package   Vbuck_GoogleAnalytics
+ * @author    Rick Buczynski <me@rickbuczynski.com>
+ * @copyright 2015 Rick Buczynski. All Rights Reserved.
+ */
+    
+-->
+<config>
+    <modules>
+        <Vbuck_GoogleAnalytics>
+            <version>0.0.1</version>
+        </Vbuck_GoogleAnalytics>
+    </modules>
+    <global>
+        <blocks>
+            <googleanalytics>
+                <rewrite>
+                    <ga>Vbuck_GoogleAnalytics_Block_Ga</ga>
+                </rewrite>
+            </googleanalytics>
+        </blocks>
+        <models>
+            <!-- Not needed as of 1.9.1 with introduction of UA support -->
+            <googleanalytics>
+                <rewrite>
+                    <system_config_source_mode>Vbuck_GoogleAnalytics_Model_System_Config_Source_Mode</system_config_source_mode>
+                </rewrite>
+            </googleanalytics>
+        </models>
+   </global>
+</config>

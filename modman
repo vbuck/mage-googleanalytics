@@ -1,0 +1,4 @@
+app/etc/modules/*                                                       app/etc/modules/
+app/code/community/Vbuck/GoogleAnalytics                                app/code/community/Vbuck/GoogleAnalytics
+app/design/frontend/base/default/template/googleanalytics/classic       app/design/frontend/base/default/template/googleanalytics/classic
+app/design/frontend/base/default/template/googleanalytics/universal     app/design/frontend/base/default/template/googleanalytics/universal
