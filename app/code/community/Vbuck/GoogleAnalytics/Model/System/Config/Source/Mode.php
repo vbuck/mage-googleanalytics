@@ -19,7 +19,7 @@
  * @author   Rick Buczynski <me@rickbuczynski.com>
  */
 
-class Sayers_GoogleAnalytics_Model_System_Config_Source_Mode
+class Vbuck_GoogleAnalytics_Model_System_Config_Source_Mode
 {
 
     const MODE_CLASSICAL = 0;
